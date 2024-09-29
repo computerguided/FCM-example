@@ -4,6 +4,8 @@ This document contains the detailed design description of the Doors Controlling 
 
 Parts of this document can also serve as a kind of template for detailed design descriptions of components when using the FCM to design the software.
 
+The documentation of this project can be found in the [doc](./doc/README.md) folder.
+
 ---
 
 ## Build
