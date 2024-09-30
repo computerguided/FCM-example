@@ -1,6 +1,6 @@
 # Explaination of the Makefile
 
-The Makefile is designed to automate the build process for a C++ project. Let's break down each part of the Makefile in detail:
+The [Makefile](Makefile) is designed to automate the build process for a C++ project. Let's break down each part of the Makefile in detail:
 
 ### 1. **Compiler**
 ```makefile
