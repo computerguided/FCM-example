@@ -10,7 +10,7 @@ The documentation of this project can be found in the [doc](./doc/README.md) fol
 
 ## Build
 
-The project uses [Makefile](Makefile) to build the executable file using the GNU GCC compiler.
+The project uses [Makefile](Makefile) to build the executable file using the GNU GCC compiler (see [Makefile.md](Makefile.md) for a detailed description of the Makefile).
 
 To build the project, run the following command in the terminal:
 
