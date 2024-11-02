@@ -20,16 +20,22 @@ void Administrator::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setTransitions()
 {
-    FCM_ADD_TRANSITION("Idle", Config, InitializedInd, "Standby",
-        // NOP
-        );
-    FCM_ADD_TRANSITION("Standby", Admin, BackendUrlReq, "Retrieving",
-        configurationDatabase->getBackendUrl();
+    addTransitionFunction<Config::InitializedInd>("Idle", "Standby",
+        [](const auto& message){}
     );
-    FCM_ADD_TRANSITION("Retrieving", Config, BackendUrlInd, "Ready",
-        FCM_PREPARE_MESSAGE(backEndUrlResp, Admin, BackendUrlRsp);
-        backEndUrlResp->url = message.url;
-        FCM_SEND_MESSAGE(backEndUrlResp);
+    addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving",
+        [this](const auto& message)
+        {
+            configurationDatabase->getBackendUrl();
+        }
+    );
+    addTransitionFunction<Config::BackendUrlInd>("Retrieving", "Ready",
+        [this](const auto& message)
+        {
+            FCM_PREPARE_MESSAGE(backEndUrlResp, Admin, BackendUrlRsp);
+            backEndUrlResp->url = message.url;
+            FCM_SEND_MESSAGE(backEndUrlResp);
+        }
     );
     FCM_ADD_TRANSITION("Ready", Admin, DoorStateChangedInd, "Storing",
         std::string event = "Door " + std::to_string(message.doorId) + " is " + (message.open ? "open" : "closed");
