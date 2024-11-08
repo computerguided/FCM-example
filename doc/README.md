@@ -12,177 +12,30 @@ The overall system architecture which identifies all the actors is given in the 
 
 The description of each one of the involved actors is given in the following table.
 
-<table>
-  <tr>
-   <td>Actor
-   </td>
-   <td>Description
-   </td>
-  </tr>
-  <tr>
-   <td>Door
-   </td>
-   <td>Equipped with sensors to detect its status (open or closed) and its lock state (locked or unlocked). It maintains an internal list of tags that can be used to operate it. The Door communicates with the Controller to report its status and respond to commands such as locking or unlocking.
-   </td>
-  </tr>
-  <tr>
-   <td>Controller
-   </td>
-   <td>Responsible for coordinating the overall system. It manages the state of the doors and interfaces with the backend. It handles commands from the backend, such as locking/unlocking doors and adding/removing tags, and communicates with the Door to execute these commands.
-   </td>
-  </tr>
-  <tr>
-   <td>Database
-   </td>
-   <td>Stores configuration settings, event data, and system history. It is initialized by the Administrator and accessed by the Controller and Backend to store and retrieve necessary information for system operations.
-   </td>
-  </tr>
-  <tr>
-   <td>Backend
-   </td>
-   <td>Facilitate remote operations and management. It communicates changes in door states, lock states, and alarms, and handles error messages. It interacts with the Controller and the Administrator to ensure secure and efficient access control.
-   </td>
-  </tr>
-  <tr>
-   <td>Administrator
-   </td>
-   <td>Responsible for initializing the system database, managing system settings, and storing events. The Administrator ensures that the system is correctly configured and maintains the history of events by interacting with the Database and other components.
-   </td>
-  </tr>
-  <tr>
-   <td>Guest
-   </td>
-   <td>Interacts with the system to gain access through doors. The system detects actions performed by the Guest, such as opening, closing, locking, or unlocking doors. The Guest's actions are monitored and processed by the Door and Controller to ensure proper access control.
-   </td>
-  </tr>
-</table>
+|Actor|Description|
+|:---|:----------|
+|Door|Equipped with sensors to detect its status (open or closed) and its lock state (locked or unlocked). It maintains an internal list of tags that can be used to operate it. The Door communicates with the Controller to report its status and respond to commands such as locking or unlocking.|
+|Controller|Responsible for coordinating the overall system. It manages the state of the doors and interfaces with the backend. It handles commands from the backend, such as locking/unlocking doors and adding/removing tags, and communicates with the Door to execute these commands.|
+|Database|Stores configuration settings, event data, and system history. It is initialized by the Administrator and accessed by the Controller and Backend to store and retrieve necessary information for system operations.|
+|Backend|Facilitate remote operations and management. It communicates changes in door states, lock states, and alarms, and handles error messages. It interacts with the Controller and the Administrator to ensure secure and efficient access control.|
+|Administrator|Responsible for initializing the system database, managing system settings, and storing events. The Administrator ensures that the system is correctly configured and maintains the history of events by interacting with the Database and other components.|
+|Guest|Interacts with the system to gain access through doors. The system detects actions performed by the Guest, such as opening, closing, locking, or unlocking doors. The Guest's actions are monitored and processed by the Door and Controller to ensure proper access control.|
 
 # Use cases
 
 In the table below all the identified use cases are listed.
 
-<table>
-  <tr>
-   <td>Use case
-   </td>
-   <td>Objective
-   </td>
-   <td>Actors
-   </td>
-  </tr>
-  <tr>
-   <td>Door detected
-   </td>
-   <td>A connected Door is detected.
-   </td>
-   <td>
-<ul>
-
-<li>Door
-
-<li>Controller
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Get door state
-   </td>
-   <td>The Door is queried for its state and returned it.
-   </td>
-   <td>
-<ul>
-
-<li>Door
-
-<li>Controller
-
-<li>Backend
-
-<li>Database
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Guest closed door
-   </td>
-   <td>The detection that the Guest closed the Door was processed.
-   </td>
-   <td rowspan="4" >
-<ul>
-
-<li>Door
-
-<li>Controller
-
-<li>Database
-
-<li>Backend
-
-<li>Guest
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Guest opened door
-   </td>
-   <td>The detection that the Guest opened the Door was processed.
-   </td>
-  </tr>
-  <tr>
-   <td>Guest locked door
-   </td>
-   <td>The detection that the Guest locked the Door was processed.
-   </td>
-  </tr>
-  <tr>
-   <td>Guest unlocked door
-   </td>
-   <td>The detection that the Guest unlocked the Door was processed.
-   </td>
-  </tr>
-  <tr>
-   <td>Administrator locks door
-   </td>
-   <td>The Door is remotely locked by the Administrator using the Backend.
-   </td>
-   <td rowspan="4" >
-<ul>
-
-<li>Door
-
-<li>Controller
-
-<li>Database
-
-<li>Backend
-
-<li>Administrator
-</li>
-</ul>
-   </td>
-  </tr>
-  <tr>
-   <td>Administrator unlocks door
-   </td>
-   <td>The Door is remotely unlocked by the Administrator using the Backend.
-   </td>
-  </tr>
-  <tr>
-   <td>Tag added to Door
-   </td>
-   <td>A tag is added to the Door by the Administrator using the Backend.
-   </td>
-  </tr>
-  <tr>
-   <td>Tag removed from Door
-   </td>
-   <td>A tag is removed from the Door by the Administrator using the Backend.
-   </td>
-  </tr>
-</table>
+|Use case|Objective|Actors|
+|:-------|:--------|:-----|
+|Door detected|A connected Door is detected.|Door, Controller|
+|Get door state|The Door is queried for its state and returned it.|Door, Controller, Backend, Database|
+|Guest closed door|The detection that the Guest closed the Door was processed.|Door, Controller, Database, Backend, Guest|
+|Guest opened door|The detection that the Guest opened the Door was processed.|Door, Controller, Database, Backend, Guest|
+|Guest locked door|The detection that the Guest locked the Door was processed.|Door, Controller, Database, Backend, Guest|
+|Guest unlocked door|The detection that the Guest unlocked the Door was processed.|Door, Controller, Database, Backend, Guest|
+|Administrator locks door|The Door is remotely locked by the Administrator using the Backend.|Door, Controller, Database, Backend, Administrator|
+|Tag added to Door|A tag is added to the Door by the Administrator using the Backend.|Door, Controller, Database, Backend, Administrator|
+|Tag removed from Door|A tag is removed from the Door by the Administrator using the Backend.|Door, Controller, Database, Backend, Administrator|
 
 # Controller Functional decomposition
 _The functional decomposition for the DCS Controller is performed in this chapter._
