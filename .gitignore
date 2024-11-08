@@ -31,3 +31,7 @@
 *.out
 *.app
 DoorsControllingSystem
+
+# VC
+.vscode
+.idea
