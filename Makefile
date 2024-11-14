@@ -12,7 +12,8 @@ FCM_SRCS = sub/fcm/src/FcmAsyncInterfaceHandler.cpp \
            sub/fcm/src/FcmDevice.cpp \
            sub/fcm/src/FcmFunctionalComponent.cpp \
            sub/fcm/src/FcmMessageQueue.cpp \
-           sub/fcm/src/FcmTimerHandler.cpp
+           sub/fcm/src/FcmTimerHandler.cpp \
+           sub/fcm/src/FcmWorkerHandler.cpp
 
 # Project source files
 PROJECT_SRCS = main.cpp \
