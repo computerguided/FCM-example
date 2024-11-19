@@ -21,7 +21,8 @@ void BackendInterface::initialize()
 // ---------------------------------------------------------------------------------------------------------------------
 void BackendInterface::connect(const std::string& url)
 {
-    std::cout << "Connecting to backend at " << url << std::endl;
+    logInfo("Connecting to backend at " + url);
+    
     // Mockup implementation:
     // - Reply with Commands:ConnectedInd
     // - Send a single KeepAliveInd message
