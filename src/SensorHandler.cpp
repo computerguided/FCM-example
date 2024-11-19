@@ -6,15 +6,12 @@
 #include "Sensing.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
-SensorHandler::SensorHandler(const std::string& nameParam, const FcmSettings& settingsParam):
-    FcmAsyncInterfaceHandler(nameParam, settingsParam)
-{
-    setSetting<uint>("numDoors", this->numDoors);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 void SensorHandler::initialize()
 {
+    FcmAsyncInterfaceHandler::initialize();
+
+    setSetting<uint>("numDoors", this->numDoors);
+
     // Mockup implementation:
     // - 'Detect' the number of doors.
 

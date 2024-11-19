@@ -7,13 +7,8 @@
 class SystemController : public FcmFunctionalComponent
 {
 public:
-    explicit SystemController(const std::string& nameParam,
-                              const FcmSettings& settingsParam = {});
-
-    void setBackendInterface(std::shared_ptr<BackendInterface>& handler)
-    {
-        backendInterface = handler;
-    }
+    using FcmFunctionalComponent::FcmFunctionalComponent;
+    void initialize() override;
 
 protected:
     // Handler references

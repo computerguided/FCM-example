@@ -8,14 +8,7 @@
 class Administrator : public FcmFunctionalComponent
 {
 public:
-    explicit Administrator(const std::string& nameParam,
-                           const FcmSettings& settingsParam = {})
-        : FcmFunctionalComponent(nameParam, settingsParam) { /* TODO */ };
-
-    void setConfigurationDatabase(std::shared_ptr<ConfigurationDatabase>& handler)
-    {
-        configurationDatabase = handler;
-    }
+    using FcmFunctionalComponent::FcmFunctionalComponent;
 
     void initialize() override;
 

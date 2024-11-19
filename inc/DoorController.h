@@ -7,13 +7,8 @@
 class DoorController : public FcmFunctionalComponent
 {
 public:
-    explicit DoorController(const std::string& nameParam,
-                            const FcmSettings& settingsParam = {});
-
-    void setSensorHandler(std::shared_ptr<SensorHandler>& handler)
-    {
-        sensorHandler = handler;
-    }
+    using FcmFunctionalComponent::FcmFunctionalComponent;
+    void initialize() override;
 
 protected:
     // Handler references

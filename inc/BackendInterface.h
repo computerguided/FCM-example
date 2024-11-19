@@ -10,10 +10,7 @@
 class BackendInterface : public FcmAsyncInterfaceHandler
 {
 public:
-
-    explicit BackendInterface(const std::string& nameParam,
-                              const FcmSettings& settingsParam = {})
-        : FcmAsyncInterfaceHandler(nameParam, settingsParam) { /* TODO */ };
+    using FcmAsyncInterfaceHandler::FcmAsyncInterfaceHandler;
 
     void connect(const std::string& url);
     void keepAlive() { /* TODO */ };
@@ -26,10 +23,6 @@ public:
 
     // Reference to SensorHandler for testing purposes
     std::shared_ptr<SensorHandler> sensorHandler;
-    void setSensorHandler(std::shared_ptr<SensorHandler>& handler)
-    {
-        sensorHandler = handler;
-    }
 
 private:
     std::thread commandLineThread;

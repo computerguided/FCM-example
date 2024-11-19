@@ -7,11 +7,11 @@
 #include "Control.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
-DoorController::DoorController(const std::string& nameParam,
-                               const FcmSettings& settingsParam):
-    FcmFunctionalComponent(nameParam, settingsParam)
+void DoorController::initialize()
 {
+    FcmFunctionalComponent::initialize();
     setSetting<FcmTime>("openDoorTimeoutMs", openDoorTimeoutMs);
+    setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

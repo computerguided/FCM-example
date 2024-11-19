@@ -6,8 +6,7 @@
 class ConfigurationDatabase : public FcmAsyncInterfaceHandler
 {
 public:
-    explicit ConfigurationDatabase(const std::string& nameParam,
-                                   const FcmSettings& settingsParam = {});
+    using FcmAsyncInterfaceHandler::FcmAsyncInterfaceHandler;
 
     void initDatabase();
     void getBackendUrl();

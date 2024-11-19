@@ -11,10 +11,11 @@
 #include "Admin.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
-SystemController::SystemController(const std::string& nameParam, const FcmSettings& settingsParam):
-    FcmFunctionalComponent(nameParam, settingsParam)
+void SystemController::initialize()
 {
+    FcmFunctionalComponent::initialize();
     setSetting<uint>("numDoors", numDoors);
+    setSetting<std::shared_ptr<BackendInterface>>("backendInterface", backendInterface);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

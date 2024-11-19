@@ -9,6 +9,15 @@
 // ---------------------------------------------------------------------------------------------------------------------
 #include "Commands.h"
 
+
+// ---------------------------------------------------------------------------------------------------------------------
+void BackendInterface::initialize()
+{
+    FcmAsyncInterfaceHandler::initialize();
+    setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
+    commandLineThread = std::thread(&BackendInterface::commandLineInput, this);
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 void BackendInterface::connect(const std::string& url)
 {
@@ -22,13 +31,6 @@ void BackendInterface::connect(const std::string& url)
 
     FCM_PREPARE_MESSAGE(keepAliveInd, Commands, KeepAliveInd);
     FCM_SEND_MESSAGE(keepAliveInd);
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-void BackendInterface::initialize()
-{
-    // Start the input thread.
-    commandLineThread = std::thread(&BackendInterface::commandLineInput, this);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

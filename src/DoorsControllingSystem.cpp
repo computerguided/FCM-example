@@ -19,12 +19,17 @@ void DoorsControllingSystem::initialize()
     settings["openDoorTimeoutMs"] = std::any(FcmTime(60000)); // 60 seconds
 
     // Create asynchronous interface handlers
-    auto backendInterface = createComponent<BackendInterface>("Backend Interface");
+    auto backendInterface = createComponent<BackendInterface>("Backend Interface", settings);
     auto sensorHandler = createComponent<SensorHandler>("Sensor Handler", settings);
-    auto configurationDatabase = createComponent<ConfigurationDatabase>("Configuration Database");
+    auto configurationDatabase = createComponent<ConfigurationDatabase>("Configuration Database", settings);
+
+    // Add handlers to the settings
+    settings["backendInterface"] = std::any(backendInterface);
+    settings["sensorHandler"] = std::any(sensorHandler);
+    settings["configurationDatabase"] = std::any(configurationDatabase);
 
     // Create functional components
-    auto administrator = createComponent<Administrator>("Administrator");
+    auto administrator = createComponent<Administrator>("Administrator", settings);
     auto systemController = createComponent<SystemController>("System Controller", settings);
 
     std::vector<std::shared_ptr<DoorController>> doorControllers;
@@ -33,17 +38,6 @@ void DoorsControllingSystem::initialize()
         auto doorController = createComponent<DoorController>("Door Controller[" + std::to_string(i) +"]", settings);
         doorControllers.push_back(doorController);
     }
-
-    // Set references to handlers.
-    systemController->setBackendInterface(backendInterface);
-    administrator->setConfigurationDatabase(configurationDatabase);
-    for (const auto& doorController : doorControllers)
-    {
-        doorController->setSensorHandler(sensorHandler);
-    }
-
-    // For testing
-    backendInterface->setSensorHandler(sensorHandler);
 
     // Connect the interfaces of the handlers
     FCM_CONNECT_INTERFACE(Commands, systemController, backendInterface);

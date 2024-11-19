@@ -6,12 +6,6 @@
 #include "Config.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
-ConfigurationDatabase::ConfigurationDatabase(const std::string& nameParam, const FcmSettings& settingsParam):
-    FcmAsyncInterfaceHandler(nameParam, settingsParam)
-{
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
 void ConfigurationDatabase::initDatabase()
 {
     // Mockup implementation:

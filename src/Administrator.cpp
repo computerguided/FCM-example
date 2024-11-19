@@ -5,6 +5,14 @@
 #include "Admin.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
+void Administrator::initialize()
+{
+    FcmFunctionalComponent::initialize();
+    setSetting<std::shared_ptr<ConfigurationDatabase>>("configurationDatabase", configurationDatabase);
+    configurationDatabase->initDatabase();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setStates()
 {
     states =
@@ -73,11 +81,4 @@ void Administrator::setChoicePoints()
         // Whether the pendingEvents vector contains any elements
         return !pendingEvents.empty();
     );
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-void Administrator::initialize()
-{
-    FcmFunctionalComponent::initialize();
-    configurationDatabase->initDatabase();
 }
