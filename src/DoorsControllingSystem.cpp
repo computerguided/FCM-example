@@ -62,8 +62,8 @@ void DoorsControllingSystem::initialize()
     {
         component->logTransitionFunction = logTransition;
         component->logDebugFunction = logDebug;
+        component->logInfoFunction = logInfo;
+        component->logWarningFunction = logWarning;
+        component->logErrorFunction = logError;
     }
-
-    backendInterface->logInfoFunction = logInfo;
-    configurationDatabase->logInfoFunction = logInfo;
 }

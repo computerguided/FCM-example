@@ -9,7 +9,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void DoorController::initialize()
 {
-    FcmFunctionalComponent::initialize();
     setSetting<FcmTime>("openDoorTimeoutMs", openDoorTimeoutMs);
     setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
 }
@@ -74,12 +73,14 @@ void DoorController::setTransitions()
     );
     FCM_ADD_TRANSITION("Open", Control, SetLockInd, "Open",
         FCM_PREPARE_MESSAGE(errorInd, Control, ErrorInd);
+        errorInd->doorId = doorId;
         errorInd->error = "Door lock cannot be changed when open";
         FCM_SEND_MESSAGE(errorInd);
     );
     FCM_ADD_TRANSITION("Open", Timer, Timeout, "Open",
         FCM_PREPARE_MESSAGE(alarmInd, Control, AlarmInd);
-        alarmInd->alarm = "Door open for too long";
+        alarmInd->doorId = doorId;
+        alarmInd->alarm = "Open for too long";
         FCM_SEND_MESSAGE(alarmInd);
     );
     FCM_ADD_TRANSITION("Unlocked", Sensing, DoorSensorInd, "Open",

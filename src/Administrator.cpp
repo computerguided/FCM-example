@@ -7,7 +7,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::initialize()
 {
-    FcmFunctionalComponent::initialize();
     setSetting<std::shared_ptr<ConfigurationDatabase>>("configurationDatabase", configurationDatabase);
     configurationDatabase->initDatabase();
 }

@@ -16,8 +16,14 @@ public:
     void keepAlive() { /* TODO */ };
     void doorLockChanged(uint doorId, bool locked) { /* TODO */ };
     void doorStateChanged(uint doorId, bool open) { /* TODO */ };
-    void alarm(uint doorId, const std::string& alarm) { logInfo( alarm); };
-    void error(uint doorId, const std::string& error) { logError( error); };
+    void alarm(uint doorId, const std::string& alarm) 
+    {
+        logInfo("Door " + std::to_string(doorId) + ": " + alarm);
+    };
+    void error(uint doorId, const std::string& error)
+    {
+        logError("Door " + std::to_string(doorId) + ": " + error);
+    };
 
     void initialize() override;
 

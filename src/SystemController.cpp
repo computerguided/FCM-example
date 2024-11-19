@@ -13,7 +13,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void SystemController::initialize()
 {
-    FcmFunctionalComponent::initialize();
     setSetting<uint>("numDoors", numDoors);
     setSetting<std::shared_ptr<BackendInterface>>("backendInterface", backendInterface);
 }

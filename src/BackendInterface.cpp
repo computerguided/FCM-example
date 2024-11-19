@@ -13,7 +13,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void BackendInterface::initialize()
 {
-    FcmAsyncInterfaceHandler::initialize();
     setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
     commandLineThread = std::thread(&BackendInterface::commandLineInput, this);
 }
@@ -22,7 +21,7 @@ void BackendInterface::initialize()
 void BackendInterface::connect(const std::string& url)
 {
     logInfo("Connecting to backend at " + url);
-    
+
     // Mockup implementation:
     // - Reply with Commands:ConnectedInd
     // - Send a single KeepAliveInd message

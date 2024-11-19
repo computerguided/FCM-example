@@ -8,8 +8,6 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void SensorHandler::initialize()
 {
-    FcmAsyncInterfaceHandler::initialize();
-
     setSetting<uint>("numDoors", this->numDoors);
 
     // Mockup implementation:

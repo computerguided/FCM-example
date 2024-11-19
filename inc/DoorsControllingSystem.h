@@ -40,6 +40,16 @@ private:
     {
         std::cout << message << std::endl;
     };
+
+    FcmLogFunction logWarning = [](const std::string& message)
+    {
+        std::cout << message << std::endl;
+    };
+
+    FcmLogFunction logError = [](const std::string& message)
+    {
+        std::cout << message << std::endl;
+    };
 };
 
 #endif //FCM_DOORS_CONTROLLING_SYSTEM_H
