@@ -55,8 +55,6 @@ void DoorsControllingSystem::initialize()
         FCM_CONNECT_INTERFACE(Control, doorController, systemController);
     }
 
-    initializeComponents();
-
     // Set log functions
     for (const auto& component : components)
     {
@@ -66,4 +64,6 @@ void DoorsControllingSystem::initialize()
         component->logWarningFunction = logWarning;
         component->logErrorFunction = logError;
     }
+
+    initializeComponents();
 }
