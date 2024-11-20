@@ -15,12 +15,10 @@
 #include "SystemController.h"
 #include "DoorController.h"
 
-const uint TIMESTEP_MS = 100;
-
 class DoorsControllingSystem : public FcmDevice
 {
 public:
-    explicit DoorsControllingSystem(uint numDoors) : FcmDevice(TIMESTEP_MS), numDoors(numDoors) {}
+    explicit DoorsControllingSystem(uint numDoors) : FcmDevice(), numDoors(numDoors) {}
     void initialize() override;
 
 private:

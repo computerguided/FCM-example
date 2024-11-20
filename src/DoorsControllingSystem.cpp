@@ -16,7 +16,7 @@ void DoorsControllingSystem::initialize()
     // Define the settings
     FcmSettings settings{};
     settings["numDoors"] = std::any(numDoors);
-    settings["openDoorTimeoutMs"] = std::any(FcmTime(60000)); // 60 seconds
+    settings["openDoorTimeoutMs"] = std::any(FcmTime(30000)); // 30 seconds
 
     // Create asynchronous interface handlers
     auto backendInterface = createComponent<BackendInterface>("Backend Interface", settings);
