@@ -1,112 +1,130 @@
-# Explaination of the Makefile
+# Detailed Makefile Explanation
 
-The [Makefile](Makefile) is designed to automate the build process for a C++ project. Let's break down each part of the Makefile in detail:
-
-### 1. **Compiler**
+## 1. Compiler and Flag Setup
 ```makefile
 CXX = g++
-```
-- `CXX`: This is the variable for the C++ compiler being used, in this case, `g++`. This variable is used later in the commands to specify which compiler to use.
-
-### 2. **Compiler Flags**
-```makefile
 CXXFLAGS = -Wall -g -Iinc -Isub/fcm/inc -std=c++17
+CXXFLAGS += -MMD -MP
 ```
-- `CXXFLAGS`: These are the flags passed to the compiler when compiling the source code. The flags here are:
-  - `-Wall`: Enable all compiler warnings to help catch potential issues.
-  - `-g`: Generate debugging information to allow debugging tools (like `gdb`) to be used on the compiled code.
-  - `-Iinc`: Add `inc/` directory to the include path for header files.
-  - `-Isub/fcm/inc`: Add `sub/fcm/inc/` directory to the include path for header files.
-  - `-std=c++17`: Specifies that the C++17 standard should be used for compilation.
+- `CXX = g++`: Defines the C++ compiler to use
+- `CXXFLAGS` contains all compiler flags:
+  - `-Wall`: Enable all common warning messages
+  - `-g`: Include debugging information in the executable
+  - `-Iinc`: Add 'inc' directory to the include search path
+  - `-Isub/fcm/inc`: Add 'sub/fcm/inc' directory to the include search path
+  - `-std=c++17`: Use C++17 standard
+  - `-MMD`: Generate dependency files (.d) for each source file
+  - `-MP`: Create phony targets for each dependency to prevent errors if headers are deleted
 
-### 3. **Directories and Source Files**
+## 2. Directory Structure
 ```makefile
 BUILD_DIR = build
 ```
-- `BUILD_DIR`: Specifies where the compiled object files will be placed. The object files will be placed in the `build/` directory.
+- Defines a build directory to store all generated files
+- Keeps the source directories clean by separating compiled objects
 
-#### Framework Source Files
+## 3. Source Files Organization
 ```makefile
 FCM_SRCS = sub/fcm/src/FcmAsyncInterfaceHandler.cpp \
            sub/fcm/src/FcmBaseComponent.cpp \
-           sub/fcm/src/FcmDevice.cpp \
-           sub/fcm/src/FcmFunctionalComponent.cpp \
-           sub/fcm/src/FcmMessageQueue.cpp \
-           sub/fcm/src/FcmTimerHandler.cpp
-```
-- `FCM_SRCS`: Lists the source files for a framework or module named `FCM`, located in `sub/fcm/src/`.
+           # ... other FCM sources
 
-#### Project Source Files
-```makefile
 PROJECT_SRCS = main.cpp \
-               src/DoorsControllingSystem.cpp \
-               src/Administrator.cpp \
-               src/BackendInterface.cpp \
-               src/ConfigurationDatabase.cpp \
-               src/DoorController.cpp \
-               src/SensorHandler.cpp \
-               src/SystemController.cpp
-```
-- `PROJECT_SRCS`: Lists the project's main source files, which are located in the `src/` directory and the `main.cpp` file in the root directory.
+              src/DoorsControllingSystem.cpp \
+              # ... other project sources
 
-### 4. **Combining Source Files**
-```makefile
 SRCS = $(PROJECT_SRCS) $(FCM_SRCS)
 ```
-- `SRCS`: Combines all project source files (`PROJECT_SRCS`) and the framework source files (`FCM_SRCS`) into a single list of source files.
+- `FCM_SRCS`: Lists all framework component source files
+- `PROJECT_SRCS`: Lists all project-specific source files
+- `SRCS`: Combines both lists into a single variable
+- Using separate variables makes it easier to manage different parts of the project
 
-### 5. **Object Files**
+## 4. Object and Dependency Files
 ```makefile
 OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRCS))
+DEPS = $(OBJS:.o=.d)
 ```
-- `OBJS`: This generates a list of object files corresponding to each source file in `SRCS`.
-  - `patsubst`: This function transforms each `.cpp` file in `SRCS` into an object file (`.o`), and places the resulting object files in the `build/` directory.
+- `OBJS`: Generates list of object file paths
+  - `patsubst` function replaces .cpp extensions with .o
+  - Prepends BUILD_DIR to maintain directory structure
+  - Example: `src/DoorController.cpp` → `build/src/DoorController.o`
+- `DEPS`: Creates list of dependency files by replacing .o with .d
+  - Example: `build/src/DoorController.o` → `build/src/DoorController.d`
 
-### 6. **Executable Name**
+## 5. Main Target and Rules
 ```makefile
 EXEC = DoorsControllingSystem
-```
-- `EXEC`: The name of the final executable that will be created after linking the object files.
 
-### 7. **Default Rule: `all`**
-```makefile
 all: $(EXEC)
-```
-- The `all` target is the default rule. When you run `make` without specifying a target, this rule will be executed.
-- It depends on the `$(EXEC)` target, so it will first build the executable by linking the object files.
 
-### 8. **Link the Executable**
-```makefile
 $(EXEC): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(EXEC) $(OBJS)
 ```
-- This rule builds the executable. It depends on the object files (`$(OBJS)`).
-- The command to be executed is `$(CXX) $(CXXFLAGS) -o $(EXEC) $(OBJS)`, which tells the compiler to link the object files into a final executable named `$(EXEC)`.
+- `EXEC`: Defines the final executable name
+- `all`: Default target that builds the executable
+- `$(EXEC)`: Rule to link object files into final executable
+  - Depends on all object files (`$(OBJS)`)
+  - Links using g++ with specified flags
 
-### 9. **Compile Source Files into Object Files**
+## 6. Compilation Rule
 ```makefile
 $(BUILD_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 ```
-- This rule specifies how to compile individual source files (`%.cpp`) into object files (`%.o`).
-- `@mkdir -p $(dir $@)`: This creates the necessary directories in `build/` if they don't already exist (the `-p` flag prevents errors if the directory already exists).
-- `$(CXX) $(CXXFLAGS) -c $< -o $@`: This invokes the compiler to compile the source file (`$<` refers to the source file, e.g., `main.cpp`) into the corresponding object file (`$@`).
+- Pattern rule for creating object files:
+  - Target: `$(BUILD_DIR)/%.o` (object file in build directory)
+  - Prerequisite: `%.cpp` (corresponding source file)
+  - `@mkdir -p $(dir $@)`: Creates necessary subdirectories
+    - `$@` is the target name (the .o file)
+    - `$(dir ...)` extracts the directory part
+  - Compilation command breaks down as:
+    - `$(CXX)`: The compiler (g++)
+    - `$(CXXFLAGS)`: All compiler flags
+    - `-c`: Compile only, don't link
+    - `$<`: The prerequisite (the .cpp file)
+    - `-o $@`: Output to the target (.o file)
 
-### 10. **Clean Rule**
+## 7. Dependency Handling
+```makefile
+-include $(DEPS)
+```
+- Includes all generated dependency files
+- The `-` prefix tells make to not error if files don't exist
+- Each .d file contains:
+  - The object file's dependencies on headers
+  - Phony targets for each header (thanks to -MP)
+  - Example content of a .d file:
+    ```makefile
+    build/src/DoorController.o: src/DoorController.cpp inc/DoorController.h \
+                               inc/CommonTypes.h
+    inc/DoorController.h:
+    inc/CommonTypes.h:
+    ```
+
+## 8. Cleanup
 ```makefile
 clean:
 	rm -rf $(BUILD_DIR) $(EXEC)
-```
-- This rule defines the `clean` target. When you run `make clean`, it will remove the `build/` directory and the final executable (`$(EXEC)`), cleaning up all generated files.
 
-### 11. **Phony Targets**
-```makefile
 .PHONY: all clean
 ```
-- `.PHONY`: Declares `all` and `clean` as "phony" targets, meaning they are not actual files. This is important because it prevents conflicts if a file named `all` or `clean` were to exist in the directory.
+- `clean`: Removes all generated files
+  - Deletes build directory and executable
+- `.PHONY`: Declares targets that don't create files
+  - Prevents conflicts with files named 'all' or 'clean'
 
-### Summary:
-- This Makefile automates the process of compiling the C++ project.
-- It compiles the source files (`SRCS`) into object files (`OBJS`), then links them into an executable named `DoorsControllingSystem`.
-- You can run `make` to build the project, `make clean` to clean up, and the object files are neatly stored in the `build/` directory.
+## Dependency Chain Example
+When you modify a header file, here's how the rebuild process works:
+
+1. You modify `inc/DoorController.h`
+2. Make reads the dependency files
+3. It finds that `build/src/DoorController.o` depends on `inc/DoorController.h`
+4. The object file is rebuilt because its dependency changed
+5. Make then rebuilds the executable because an object file changed
+
+The `-MMD` flag ensures this happens automatically by:
+1. Scanning included headers during compilation
+2. Writing dependencies to `.d` files
+3. Including these dependencies in the makefile for the next run

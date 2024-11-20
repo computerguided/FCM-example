@@ -3,6 +3,8 @@ CXX = g++
 
 # Compiler flags
 CXXFLAGS = -Wall -g -Iinc -Isub/fcm/inc -std=c++17
+# Add -MMD -MP flags to generate dependency files
+CXXFLAGS += -MMD -MP
 
 BUILD_DIR = build
 
@@ -31,6 +33,9 @@ SRCS = $(PROJECT_SRCS) $(FCM_SRCS)
 # Object files
 OBJS = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRCS))
 
+# Dependency files
+DEPS = $(OBJS:.o=.d)
+
 # Executable name
 EXEC = DoorsControllingSystem
 
@@ -49,5 +54,8 @@ $(BUILD_DIR)/%.o: %.cpp
 # Clean up generated files
 clean:
 	rm -rf $(BUILD_DIR) $(EXEC)
+
+# Include dependency files
+-include $(DEPS)
 
 .PHONY: all clean
