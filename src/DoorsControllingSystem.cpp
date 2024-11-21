@@ -50,6 +50,7 @@ void DoorsControllingSystem::initialize()
 
     // Connect functional components.
     FCM_CONNECT_INTERFACE(Admin, administrator, systemController);
+
     for (const auto& doorController : doorControllers)
     {
         FCM_CONNECT_INTERFACE(Control, doorController, systemController);
