@@ -54,7 +54,7 @@ void DoorController::setTransitions()
         sensorHandler->enableLockSensor(doorId);
     );
     FCM_ADD_TRANSITION("Closed?", Logical, No, "Open",
-        openDoorTimerId = timerHandler.setTimeout(openDoorTimeoutMs, this);
+        openDoorTimerId = setTimeout(openDoorTimeoutMs);
     );
     FCM_ADD_TRANSITION("Await Lock Sensor", Sensing, LockSensorInd, "Is Locked?",
         lockState = message.locked;
@@ -69,7 +69,7 @@ void DoorController::setTransitions()
     FCM_ADD_TRANSITION("Open", Sensing, DoorSensorInd, "Unlocked",
         doorState = message.open;
         sendDoorStateChangedInd();
-        timerHandler.cancelTimeout(openDoorTimerId);
+        cancelTimeout(openDoorTimerId);
     );
     FCM_ADD_TRANSITION("Open", Control, SetLockInd, "Open",
         FCM_PREPARE_MESSAGE(errorInd, Control, ErrorInd);
@@ -86,7 +86,7 @@ void DoorController::setTransitions()
     FCM_ADD_TRANSITION("Unlocked", Sensing, DoorSensorInd, "Open",
         doorState = message.open;
         sendDoorStateChangedInd();
-        openDoorTimerId = timerHandler.setTimeout(openDoorTimeoutMs, this);
+        openDoorTimerId = setTimeout(openDoorTimeoutMs);
     );
     FCM_ADD_TRANSITION("Unlocked", Control, SetLockInd, "Locking",
         sensorHandler->lock(doorId);
