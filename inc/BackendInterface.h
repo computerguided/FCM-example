@@ -7,11 +7,8 @@
 #include "FcmAsyncInterfaceHandler.h"
 #include "SensorHandler.h" // For testing purposes
 
-class BackendInterface : public FcmAsyncInterfaceHandler
-{
+FCM_ASYNC_INTERFACE_HANDLER(BackendInterface,
 public:
-    using FcmAsyncInterfaceHandler::FcmAsyncInterfaceHandler;
-
     void connect(const std::string& url);
     void keepAlive() { /* TODO */ };
     void doorLockChanged(uint doorId, bool locked) { /* TODO */ };
@@ -25,15 +22,12 @@ public:
         logError("Door " + std::to_string(doorId) + ": " + error);
     };
 
-    void initialize() override;
-
     // Reference to SensorHandler for testing purposes
     std::shared_ptr<SensorHandler> sensorHandler;
 
-private:
     std::thread commandLineThread;
     void commandLineInput();
     void executeCommand(const std::string& command, uint doorId = 0, uint tagId = 0);
-};
+);
 
 #endif //DOORS_CONTROLLING_SYSTEM_BACKEND_INTERFACE_H

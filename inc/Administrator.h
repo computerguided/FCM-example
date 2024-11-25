@@ -5,23 +5,10 @@
 #include "ConfigurationDatabase.h"
 
 // Create an Administrator class as subclass of FcmFunctionalComponent
-class Administrator : public FcmFunctionalComponent
-{
-public:
-    using FcmFunctionalComponent::FcmFunctionalComponent;
-
-    void initialize() override;
-
-protected:
-    // References
-    std::shared_ptr<ConfigurationDatabase> configurationDatabase;
-
+FCM_FUNCTIONAL_COMPONENT(Administrator,
     // State variables
+    std::shared_ptr<ConfigurationDatabase> configurationDatabase;
     std::vector<std::string> pendingEvents;
-
-    void setTransitions() override;
-    void setChoicePoints() override;
-    void setStates() override;
-};
+);
 
 #endif //DOORS_CONTROLLING_SYSTEM_ADMINISTRATOR_H

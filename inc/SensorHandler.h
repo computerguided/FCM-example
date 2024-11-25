@@ -5,12 +5,7 @@
 
 #include "FcmAsyncInterfaceHandler.h"
 
-class SensorHandler : public FcmAsyncInterfaceHandler
-{
-public:
-    using FcmAsyncInterfaceHandler::FcmAsyncInterfaceHandler;
-
-    void initialize() override;
+FCM_ASYNC_INTERFACE_HANDLER(SensorHandler,
 
     void enableLockSensor(uint doorId);
     void enableDoorSensor(uint doorId);
@@ -23,7 +18,7 @@ public:
     void sendDoorSensorInd(uint doorId, bool open);
     void sendLockSensorInd(uint doorId, bool locked);
 
-protected:
     uint numDoors{};
-};
+);
+
 #endif //DOORS_CONTROLLING_SYSTEM_SENSOR_HANDLER_H

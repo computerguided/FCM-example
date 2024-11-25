@@ -4,13 +4,8 @@
 #include "FcmFunctionalComponent.h"
 #include "SensorHandler.h"
 
-class DoorController : public FcmFunctionalComponent
-{
-public:
-    using FcmFunctionalComponent::FcmFunctionalComponent;
-    void initialize() override;
+FCM_FUNCTIONAL_COMPONENT(DoorController,
 
-protected:
     // Handler references
     std::shared_ptr<SensorHandler> sensorHandler;
 
@@ -23,14 +18,9 @@ protected:
     bool lockState = false;
     bool doorState = false;
 
-    void setTransitions() override;
-    void setChoicePoints() override;
-    void setStates() override;
-
-private:
     // Local functions
     void sendDoorStateChangedInd();
     void sendDoorLockChangedInd();
-};
+);
 
 #endif //FCM_EXAMPLE_DOOR_CONTROLLER_H

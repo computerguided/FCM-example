@@ -6,6 +6,12 @@
 #include "Config.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
+void ConfigurationDatabase::initialize()
+{
+    // Nothing to do here
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
 void ConfigurationDatabase::initDatabase()
 {
     // Mockup implementation:
