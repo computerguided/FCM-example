@@ -7,7 +7,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::initialize()
 {
-    setSetting<std::shared_ptr<ConfigurationDatabase>>("configurationDatabase", configurationDatabase);
+    setSetting<std::shared_ptr<ConfigurationDatabase>>("Configuration Database", configurationDatabase);
     configurationDatabase->initDatabase();
 }
 

@@ -10,7 +10,7 @@
 void DoorController::initialize()
 {
     setSetting<FcmTime>("openDoorTimeoutMs", openDoorTimeoutMs);
-    setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
+    setSetting<std::shared_ptr<SensorHandler>>("Sensor Handler", sensorHandler);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

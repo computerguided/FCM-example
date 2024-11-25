@@ -13,7 +13,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void BackendInterface::initialize()
 {
-    setSetting<std::shared_ptr<SensorHandler>>("sensorHandler", sensorHandler);
+    setSetting<std::shared_ptr<SensorHandler>>("Sensor Handler", sensorHandler);
     commandLineThread = std::thread(&BackendInterface::commandLineInput, this);
 }
 
