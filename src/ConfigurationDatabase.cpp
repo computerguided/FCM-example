@@ -17,8 +17,8 @@ void ConfigurationDatabase::initDatabase()
     // Mockup implementation:
     // - Reply with Config:InitializedInd
 
-    FCM_PREPARE_MESSAGE(initializedInd, Config, InitializedInd);
-    FCM_SEND_MESSAGE(initializedInd);
+    auto initializedInd = prepareMessage<Config::InitializedInd>();
+    sendMessage(initializedInd);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -27,9 +27,9 @@ void ConfigurationDatabase::getBackendUrl()
     // Mockup implementation:
     // - Reply with Admin:BackendUrlRsp
 
-    FCM_PREPARE_MESSAGE(backendUrlInd, Config, BackendUrlInd);
+    auto backendUrlInd = prepareMessage<Config::BackendUrlInd>();
     backendUrlInd->url = "http://backend.url";
-    FCM_SEND_MESSAGE(backendUrlInd);
+    sendMessage(backendUrlInd);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -39,8 +39,8 @@ void ConfigurationDatabase::storeEvent(const std::string& event)
     // - Reply with Config:EventStoredInd
     // - Print the event to the console
 
-    FCM_PREPARE_MESSAGE(eventStoredInd, Config, EventStoredInd);
-    FCM_SEND_MESSAGE(eventStoredInd);
+    auto eventStoredInd = prepareMessage<Config::EventStoredInd>();
+    sendMessage(eventStoredInd);
 
     logInfo("Event stored: " + event);
 }

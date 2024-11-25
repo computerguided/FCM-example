@@ -36,110 +36,109 @@ void SystemController::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void SystemController::setTransitions()
 {
-    FCM_ADD_TRANSITION("Awaiting Doors", Control, DoorDetectedInd, "All Doors Detected?",
+    addTransitionFunction<Control::DoorDetectedInd>("Awaiting Doors", "All Doors Detected?", [this](const auto& message)
     {
         detectedDoors.push_back(message.doorId);
     });
-    FCM_ADD_TRANSITION("All Doors Detected?", Logical, Yes, "Initializing",
+    addTransitionFunction<Logical::Yes>("All Doors Detected?", "Initializing", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(backendUrlReq, Admin, BackendUrlReq);
-        FCM_SEND_MESSAGE(backendUrlReq);
+        auto backendUrlReq = prepareMessage<Admin::BackendUrlReq>();
+        sendMessage(backendUrlReq);
     });
-    FCM_ADD_TRANSITION("All Doors Detected?", Logical, No, "Awaiting Doors",
+    addTransitionFunction<Logical::No>("All Doors Detected?", "Awaiting Doors", [this](const auto& message)
     {
-        // NOP
+        (void)this;
     });
-    FCM_ADD_TRANSITION("Initializing", Admin, BackendUrlRsp, "Connecting",
+    addTransitionFunction<Admin::BackendUrlRsp>("Initializing", "Connecting", [this](const auto& message)
     {
         backendInterface->connect(message.url);
     });
-    FCM_ADD_TRANSITION("Connecting", Commands, ConnectedInd, "Ready",
+    addTransitionFunction<Commands::ConnectedInd>("Connecting", "Ready", [this](const auto& message)
     {
         for (int i = 0; i < detectedDoors.size(); i++)
         {
-            FCM_PREPARE_MESSAGE(releaseDoorInd, Control, ReleaseDoorInd);
-            FCM_SEND_MESSAGE(releaseDoorInd, i);
+            auto releaseDoorInd = prepareMessage<Control::ReleaseDoorInd>();
+            sendMessage(releaseDoorInd, i);
         }
     });
-    FCM_ADD_TRANSITION("Ready", Commands, LockDoorInd, "Door Found?",
+    addTransitionFunction<Commands::LockDoorInd>("Ready", "Door Found?", [this](const auto& message)
     {
         lastDoorIndex = findDoorIndex(message.doorId);
         lastDoorId = message.doorId;
     });
-    FCM_ADD_TRANSITION("Ready", Commands, UnlockDoorInd, "Door Found?",
+    addTransitionFunction<Commands::UnlockDoorInd>("Ready", "Door Found?", [this](const auto& message)
     {
         lastDoorIndex = findDoorIndex(message.doorId);
         lastDoorId = message.doorId;
     });
-    FCM_ADD_TRANSITION("Ready", Commands, AddTagInd, "Door Found?",
+    addTransitionFunction<Commands::AddTagInd>("Ready", "Door Found?", [this](const auto& message)
     {
         lastDoorIndex = findDoorIndex(message.doorId);
         lastDoorId = message.doorId;
     });
-    FCM_ADD_TRANSITION("Ready", Commands, RemoveTagInd, "Door Found?",
+    addTransitionFunction<Commands::RemoveTagInd>("Ready", "Door Found?", [this](const auto& message)
     {
         lastDoorIndex = findDoorIndex(message.doorId);
         lastDoorId = message.doorId;
     });
-    FCM_ADD_TRANSITION("Ready", Control, DoorStateChangedInd, "Ready",
+    addTransitionFunction<Control::DoorStateChangedInd>("Ready", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(doorStateChangedInd, Admin, DoorStateChangedInd);
+        auto doorStateChangedInd = prepareMessage<Admin::DoorStateChangedInd>();
         doorStateChangedInd->doorId = message.doorId;
         doorStateChangedInd->open = message.open;
-        FCM_SEND_MESSAGE(doorStateChangedInd);
-
+        sendMessage(doorStateChangedInd);
         backendInterface->doorStateChanged(message.doorId, message.open);
     });
-    FCM_ADD_TRANSITION("Ready", Control, DoorLockChangedInd, "Ready",
+    addTransitionFunction<Control::DoorLockChangedInd>("Ready", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(doorLockChanged, Admin, DoorLockChangedInd);
+        auto doorLockChanged = prepareMessage<Admin::DoorLockChangedInd>();
         doorLockChanged->doorId = message.doorId;
         doorLockChanged->locked = message.locked;
-        FCM_SEND_MESSAGE(doorLockChanged);
+        sendMessage(doorLockChanged);
         backendInterface->doorLockChanged(message.doorId, message.locked);
     });
-    FCM_ADD_TRANSITION("Ready", Control, ErrorInd, "Ready",
+    addTransitionFunction<Control::ErrorInd>("Ready", "Ready", [this](const auto& message)
     {
         backendInterface->error(message.doorId, message.error);
     });
-    FCM_ADD_TRANSITION("Ready", Control, AlarmInd, "Ready",
+    addTransitionFunction<Control::AlarmInd>("Ready", "Ready", [this](const auto& message)
     {
         backendInterface->alarm(message.doorId, message.alarm);
     });
-    FCM_ADD_TRANSITION("Door Found?", Logical, Yes, "Processing",
+    addTransitionFunction<Logical::Yes>("Door Found?", "Processing", [this](const auto& message)
     {
         resendLastReceivedMessage();
     });
-    FCM_ADD_TRANSITION("Door Found?", Logical, No, "Ready",
+    addTransitionFunction<Logical::No>("Door Found?", "Ready", [this](const auto& message)
     {
         std::string error = "Door with id " + std::to_string(lastDoorId) + " not found!";
         backendInterface->error(lastDoorId, error);
     });
-    FCM_ADD_TRANSITION("Processing", Commands, LockDoorInd, "Ready",
+    addTransitionFunction<Commands::LockDoorInd>("Processing", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(setLockInd, Control, SetLockInd);
+        auto setLockInd = prepareMessage<Control::SetLockInd>();
         setLockInd->locked = true;
-        FCM_SEND_MESSAGE(setLockInd, lastDoorIndex);
+        sendMessage(setLockInd, lastDoorIndex);
     });
-    FCM_ADD_TRANSITION("Processing", Commands, UnlockDoorInd, "Ready",
+    addTransitionFunction<Commands::UnlockDoorInd>("Processing", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(setLockInd, Control, SetLockInd);
+        auto setLockInd = prepareMessage<Control::SetLockInd>();
         setLockInd->locked = false;
-        FCM_SEND_MESSAGE(setLockInd, lastDoorIndex);
+        sendMessage(setLockInd, lastDoorIndex);
     });
-    FCM_ADD_TRANSITION("Processing", Commands, AddTagInd, "Ready",
+    addTransitionFunction<Commands::AddTagInd>("Processing", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(addTagInd, Control, AddTagInd);
+        auto addTagInd = prepareMessage<Control::AddTagInd>();
         addTagInd->tagId = message.tagId;
-        FCM_SEND_MESSAGE(addTagInd, lastDoorIndex);
+        sendMessage(addTagInd, lastDoorIndex);
     });
-    FCM_ADD_TRANSITION("Processing", Commands, RemoveTagInd, "Ready",
+    addTransitionFunction<Commands::RemoveTagInd>("Processing", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(removeTagInd, Control, RemoveTagInd);
+        auto removeTagInd = prepareMessage<Control::RemoveTagInd>();
         removeTagInd->tagId = message.tagId;
-        FCM_SEND_MESSAGE(removeTagInd, lastDoorIndex);
+        sendMessage(removeTagInd, lastDoorIndex);
     });
-    FCM_ADD_TRANSITION("*", Commands, KeepAliveInd, "H",
+    addTransitionFunction<Commands::KeepAliveInd>("*", "H", [this](const auto& message)
     {
         backendInterface->keepAlive();
     });
@@ -148,11 +147,11 @@ void SystemController::setTransitions()
 // ---------------------------------------------------------------------------------------------------------------------
 void SystemController::setChoicePoints()
 {
-    FCM_ADD_CHOICE_POINT("All Doors Detected?",
+    addChoicePoint("All Doors Detected?", [this]()
     {
         return detectedDoors.size() == numDoors;
     });
-    FCM_ADD_CHOICE_POINT("Door Found?",
+    addChoicePoint("Door Found?", [this]()
     {
         return lastDoorIndex != -1;
     });

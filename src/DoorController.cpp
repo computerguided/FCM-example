@@ -37,110 +37,110 @@ void DoorController::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void DoorController::setTransitions()
 {
-    FCM_ADD_TRANSITION("Idle", Sensing, DoorDetectedInd, "Standby",
+    addTransitionFunction<Sensing::DoorDetectedInd>("Idle", "Standby", [this](const auto& message)
     {
         doorId = message.doorId;
-        FCM_PREPARE_MESSAGE(doorDetectedInd, Control, DoorDetectedInd);
+        auto doorDetectedInd = prepareMessage<Control::DoorDetectedInd>();
         doorDetectedInd->doorId = doorId;
-        FCM_SEND_MESSAGE(doorDetectedInd);
+        sendMessage(doorDetectedInd);
     });
-    FCM_ADD_TRANSITION("Standby", Control, ReleaseDoorInd, "Await Door Sensor",
+    addTransitionFunction<Control::ReleaseDoorInd>("Standby", "Await Door Sensor", [this](const auto& message)
     {
         sensorHandler->enableDoorSensor(doorId);
     });
-    FCM_ADD_TRANSITION("Await Door Sensor", Sensing, DoorSensorInd, "Closed?",
+    addTransitionFunction<Sensing::DoorSensorInd>("Await Door Sensor", "Closed?", [this](const auto& message)
     {
         doorState = message.open;
         sendDoorStateChangedInd();
     });
-    FCM_ADD_TRANSITION("Closed?", Logical, Yes, "Await Lock Sensor",
+    addTransitionFunction<Logical::Yes>("Closed?", "Await Lock Sensor", [this](const auto& message)
     {
         sensorHandler->enableLockSensor(doorId);
     });
-    FCM_ADD_TRANSITION("Closed?", Logical, No, "Open",
+    addTransitionFunction<Logical::No>("Closed?", "Open", [this](const auto& message)
     {
         openDoorTimerId = setTimeout(openDoorTimeoutMs);
     });
-    FCM_ADD_TRANSITION("Await Lock Sensor", Sensing, LockSensorInd, "Is Locked?",
+    addTransitionFunction<Sensing::LockSensorInd>("Await Lock Sensor", "Is Locked?", [this](const auto& message)
     {
         lockState = message.locked;
         sendDoorLockChangedInd();
     });
-    FCM_ADD_TRANSITION("Is Locked?", Logical, Yes, "Locked",
+    addTransitionFunction<Logical::Yes>("Is Locked?", "Locked", [this](const auto& message)
     {
-        // NOP
+        (void)this;
     });
-    FCM_ADD_TRANSITION("Is Locked?", Logical, No, "Unlocked",
+    addTransitionFunction<Logical::No>("Is Locked?", "Unlocked", [this](const auto& message)
     {
-        // NOP
+        (void)this;
     });
-    FCM_ADD_TRANSITION("Open", Sensing, DoorSensorInd, "Unlocked",
+    addTransitionFunction<Sensing::DoorSensorInd>("Open", "Unlocked", [this](const auto& message)
     {
         doorState = message.open;
         sendDoorStateChangedInd();
         cancelTimeout(openDoorTimerId);
     });
-    FCM_ADD_TRANSITION("Open", Control, SetLockInd, "Open",
+    addTransitionFunction<Control::SetLockInd>("Open", "Open", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(errorInd, Control, ErrorInd);
+        auto errorInd = prepareMessage<Control::ErrorInd>();
         errorInd->doorId = doorId;
         errorInd->error = "Door lock cannot be changed when open";
-        FCM_SEND_MESSAGE(errorInd);
+        sendMessage(errorInd);
     });
-    FCM_ADD_TRANSITION("Open", Timer, Timeout, "Open",
+    addTransitionFunction<Timer::Timeout>("Open", "Open", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(alarmInd, Control, AlarmInd);
+        auto alarmInd = prepareMessage<Control::AlarmInd>();
         alarmInd->doorId = doorId;
         alarmInd->alarm = "Open for too long";
-        FCM_SEND_MESSAGE(alarmInd);
+        sendMessage(alarmInd);
     });
-    FCM_ADD_TRANSITION("Unlocked", Sensing, DoorSensorInd, "Open",
+    addTransitionFunction<Sensing::DoorSensorInd>("Unlocked", "Open", [this](const auto& message)
     {
         doorState = message.open;
         sendDoorStateChangedInd();
         openDoorTimerId = setTimeout(openDoorTimeoutMs);
     });
-    FCM_ADD_TRANSITION("Unlocked", Control, SetLockInd, "Locking",
+    addTransitionFunction<Control::SetLockInd>("Unlocked", "Locking", [this](const auto& message)
     {
         sensorHandler->lock(doorId);
     });
-    FCM_ADD_TRANSITION("Locking", Sensing, LockFailInd, "Unlocked",
+    addTransitionFunction<Sensing::LockFailInd>("Locking", "Unlocked", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(errorInd, Control, ErrorInd);
+        auto errorInd = prepareMessage<Control::ErrorInd>();
         errorInd->doorId = doorId;
         errorInd->error = "Locking failed";
-        FCM_SEND_MESSAGE(errorInd);
+        sendMessage(errorInd);
     });
-    FCM_ADD_TRANSITION("Locked", Control, SetLockInd, "Unlocking",
+    addTransitionFunction<Control::SetLockInd>("Locked", "Unlocking", [this](const auto& message)
     {
         sensorHandler->unlock(doorId);
     });
-    FCM_ADD_TRANSITION("Locked", Control, AddTagInd, "Locked",
+    addTransitionFunction<Control::AddTagInd>("Locked", "Locked", [this](const auto& message)
     {
         sensorHandler->addTag(doorId, message.tagId);
     });
-    FCM_ADD_TRANSITION("Locked", Control, RemoveTagInd, "Locked",
+    addTransitionFunction<Control::RemoveTagInd>("Locked", "Locked", [this](const auto& message)
     {
         sensorHandler->removeTag(doorId, message.tagId);
     });
-    FCM_ADD_TRANSITION("Locked", Sensing, LockSensorInd, "Unlocked",
+    addTransitionFunction<Sensing::LockSensorInd>("Locked", "Unlocked", [this](const auto& message)
     {
         lockState = message.locked;
         sendDoorLockChangedInd();
     });
-    FCM_ADD_TRANSITION("Unlocking", Sensing, LockSensorInd, "Unlocked",
+    addTransitionFunction<Sensing::LockSensorInd>("Unlocking", "Unlocked", [this](const auto& message)
     {
         lockState = message.locked;
         sendDoorLockChangedInd();
     });
-    FCM_ADD_TRANSITION("Unlocking", Sensing, UnlockFailInd, "Locked",
+    addTransitionFunction<Sensing::UnlockFailInd>("Unlocking", "Locked", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(errorInd, Control, ErrorInd);
+        auto errorInd = prepareMessage<Control::ErrorInd>();
         errorInd->doorId = doorId;
         errorInd->error = "Unlocking failed";
-        FCM_SEND_MESSAGE(errorInd);
+        sendMessage(errorInd);
     });
-    FCM_ADD_MULTIPLE_STATES_TRANSITION(({"Unlocked", "Locking"}), Sensing, LockSensorInd, "Locked",
+    addMultipleStatesTransition<Sensing::LockSensorInd>({"Unlocked", "Locking"}, "Locked", [this](const auto& message)
     {
         lockState = message.locked;
         sendDoorLockChangedInd();
@@ -150,11 +150,11 @@ void DoorController::setTransitions()
 // ---------------------------------------------------------------------------------------------------------------------
 void DoorController::setChoicePoints()
 {
-    FCM_ADD_CHOICE_POINT("Closed?",
+    addChoicePoint("Closed?", [this]()
     {
         return !doorState;
     });
-    FCM_ADD_CHOICE_POINT("Is Locked?",
+    addChoicePoint("Is Locked?", [this]()
     {
         return lockState;
     });
@@ -163,17 +163,17 @@ void DoorController::setChoicePoints()
 // ---------------------------------------------------------------------------------------------------------------------
 void DoorController::sendDoorLockChangedInd()
 {
-    FCM_PREPARE_MESSAGE(doorLockChangedInd, Control, DoorLockChangedInd);
+    auto doorLockChangedInd = prepareMessage<Control::DoorLockChangedInd>();
     doorLockChangedInd->doorId = doorId;
     doorLockChangedInd->locked = lockState;
-    FCM_SEND_MESSAGE(doorLockChangedInd);
+    sendMessage(doorLockChangedInd);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 void DoorController::sendDoorStateChangedInd()
 {
-    FCM_PREPARE_MESSAGE(doorSensorInd, Control, DoorStateChangedInd);
+    auto doorSensorInd = prepareMessage<Control::DoorStateChangedInd>();
     doorSensorInd->doorId = doorId;
     doorSensorInd->open = doorState;
-    FCM_SEND_MESSAGE(doorSensorInd);
+    sendMessage(doorSensorInd);
 }

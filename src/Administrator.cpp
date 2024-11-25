@@ -27,9 +27,9 @@ void Administrator::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setTransitions()
 {
-    addTransitionFunction<Config::InitializedInd>("Idle", "Standby", [](const auto& message)
+    addTransitionFunction<Config::InitializedInd>("Idle", "Standby", [this](const auto& message)
     {
-
+        (void)this;
     });
     addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving", [this](const auto& message)
     {
@@ -37,50 +37,50 @@ void Administrator::setTransitions()
     });
     addTransitionFunction<Config::BackendUrlInd>("Retrieving", "Ready", [this](const auto& message)
     {
-        FCM_PREPARE_MESSAGE(backEndUrlResp, Admin, BackendUrlRsp);
+        auto backEndUrlResp = prepareMessage<Admin::BackendUrlRsp>();
         backEndUrlResp->url = message.url;
-        FCM_SEND_MESSAGE(backEndUrlResp);
+        sendMessage(backEndUrlResp);
     });
-    FCM_ADD_TRANSITION("Ready", Admin, DoorStateChangedInd, "Storing",
+    addTransitionFunction<Admin::DoorStateChangedInd>("Ready", "Storing", [this](const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId) + " is " + (message.open ? "open" : "closed");
         configurationDatabase->storeEvent(event);
     });
-    FCM_ADD_TRANSITION("Ready", Admin, DoorLockChangedInd, "Storing",
+    addTransitionFunction<Admin::DoorLockChangedInd>("Ready", "Storing", [this](const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId )+ " is " + (message.locked ? "locked" : "unlocked");
         configurationDatabase->storeEvent(event);
     });
-    FCM_ADD_TRANSITION("Storing", Admin, DoorStateChangedInd, "Storing",
+    addTransitionFunction<Admin::DoorStateChangedInd>("Storing", "Storing", [this](const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId )+ " is " + (message.open ? "open" : "closed");
         pendingEvents.push_back(event);
     });
-    FCM_ADD_TRANSITION("Storing", Admin, DoorLockChangedInd, "Storing",
+    addTransitionFunction<Admin::DoorLockChangedInd>("Storing", "Storing", [this](const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId) + " is " + (message.locked ? "locked" : "unlocked");
         pendingEvents.push_back(event);
     });
-    FCM_ADD_TRANSITION("Storing", Config, EventStoredInd, "Pending Events?",
+    addTransitionFunction<Config::EventStoredInd>("Storing", "Pending Events?", [this](const auto& message)
     {
-        // NOP
+        (void)this;
     });
-    FCM_ADD_TRANSITION("Pending Events?", Logical, Yes, "Storing",
+    addTransitionFunction<Logical::Yes>("Pending Events?", "Storing", [this](const auto& message)
     {
         std::string event = pendingEvents.front();
         pendingEvents.erase(pendingEvents.begin());
         configurationDatabase->storeEvent(event);
     });
-    FCM_ADD_TRANSITION("Pending Events?", Logical, No, "Ready",
+    addTransitionFunction<Logical::No>("Pending Events?", "Ready", [this](const auto& message)
     {
-        // NOP
+        (void)this;
     });
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setChoicePoints()
 {
-    FCM_ADD_CHOICE_POINT("Pending Events?",
+    addChoicePoint("Pending Events?", [this]()
     {
         // Whether the pendingEvents vector contains any elements
         return !pendingEvents.empty();

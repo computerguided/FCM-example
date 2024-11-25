@@ -26,11 +26,11 @@ void BackendInterface::connect(const std::string& url)
     // - Reply with Commands:ConnectedInd
     // - Send a single KeepAliveInd message
 
-    FCM_PREPARE_MESSAGE(connectedInd, Commands, ConnectedInd);
-    FCM_SEND_MESSAGE(connectedInd);
+    auto connectedInd = prepareMessage<Commands::ConnectedInd>();
+    sendMessage(connectedInd);
 
-    FCM_PREPARE_MESSAGE(keepAliveInd, Commands, KeepAliveInd);
-    FCM_SEND_MESSAGE(keepAliveInd);
+    auto keepAliveInd = prepareMessage<Commands::KeepAliveInd>();
+    sendMessage(keepAliveInd);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -94,29 +94,29 @@ void BackendInterface::executeCommand(const std::string &command, const uint doo
 {
     if (command == "AddTag")
     {
-        FCM_PREPARE_MESSAGE(addTagInd, Commands, AddTagInd);
+        auto addTagInd = prepareMessage<Commands::AddTagInd>();
         addTagInd->doorId = doorId;
         addTagInd->tagId = tagId;
-        FCM_SEND_MESSAGE(addTagInd);
+        sendMessage(addTagInd);
     }
     else if (command == "RemoveTag")
     {
-        FCM_PREPARE_MESSAGE(removeTagInd, Commands, RemoveTagInd);
+        auto removeTagInd = prepareMessage<Commands::RemoveTagInd>();
         removeTagInd->doorId = doorId;
         removeTagInd->tagId = tagId;
-        FCM_SEND_MESSAGE(removeTagInd);
+        sendMessage(removeTagInd);
     }
     else if (command == "LockDoor")
     {
-        FCM_PREPARE_MESSAGE(lockDoorInd, Commands, LockDoorInd);
+        auto lockDoorInd = prepareMessage<Commands::LockDoorInd>();
         lockDoorInd->doorId = doorId;
-        FCM_SEND_MESSAGE(lockDoorInd);
+        sendMessage(lockDoorInd);
     }
     else if (command == "UnlockDoor")
     {
-        FCM_PREPARE_MESSAGE(unlockDoorInd, Commands, UnlockDoorInd);
+        auto unlockDoorInd = prepareMessage<Commands::UnlockDoorInd>();
         unlockDoorInd->doorId = doorId;
-        FCM_SEND_MESSAGE(unlockDoorInd);
+        sendMessage(unlockDoorInd);
     }
     else if (command == "OpenDoor")
     {

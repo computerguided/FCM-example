@@ -18,9 +18,9 @@ void SensorHandler::initialize()
         // Mockup implementation:
         // - Reply with Sensing:DoorDetectedInd
 
-        FCM_PREPARE_MESSAGE(doorDetectedInd, Sensing, DoorDetectedInd);
+        auto doorDetectedInd = prepareMessage<Sensing::DoorDetectedInd>();
         doorDetectedInd->doorId = i;
-        FCM_SEND_MESSAGE(doorDetectedInd, i);
+        sendMessage(doorDetectedInd, i);
     }
 }
 
@@ -30,9 +30,9 @@ void SensorHandler::enableDoorSensor(uint doorId)
     // Mockup implementation:
     // - Reply with Sensing:DoorSensorInd using the door id as index.
 
-    FCM_PREPARE_MESSAGE(doorSensorInd, Sensing, DoorSensorInd);
+    auto doorSensorInd = prepareMessage<Sensing::DoorSensorInd>();
     doorSensorInd->open = false;
-    FCM_SEND_MESSAGE(doorSensorInd, doorId);
+    sendMessage(doorSensorInd, doorId);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -41,9 +41,9 @@ void SensorHandler::enableLockSensor(uint doorId)
     // Mockup implementation:
     // - Reply with Sensing:LockSensorInd using the door id as index.
 
-    FCM_PREPARE_MESSAGE(lockSensorInd, Sensing, LockSensorInd);
+    auto lockSensorInd = prepareMessage<Sensing::LockSensorInd>();
     lockSensorInd->locked = false;
-    FCM_SEND_MESSAGE(lockSensorInd, doorId);
+    sendMessage(lockSensorInd, doorId);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -68,9 +68,9 @@ void SensorHandler::sendDoorSensorInd(uint doorId, bool open)
     // Mockup implementation:
     // - Reply with Sensing:DoorSensorInd using the door id as index.
 
-    FCM_PREPARE_MESSAGE(doorSensorInd, Sensing, DoorSensorInd);
+    auto doorSensorInd = prepareMessage<Sensing::DoorSensorInd>();
     doorSensorInd->open = open;
-    FCM_SEND_MESSAGE(doorSensorInd, doorId);
+    sendMessage(doorSensorInd, doorId);
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ void SensorHandler::sendLockSensorInd(uint doorId, bool locked)
     // Mockup implementation:
     // - Reply with Sensing:LockSensorInd using the door id as index.
 
-    FCM_PREPARE_MESSAGE(lockSensorInd, Sensing, LockSensorInd);
+    auto lockSensorInd = prepareMessage<Sensing::LockSensorInd>();
     lockSensorInd->locked = locked;
-    FCM_SEND_MESSAGE(lockSensorInd, doorId);
+    sendMessage(lockSensorInd, doorId);
 }
