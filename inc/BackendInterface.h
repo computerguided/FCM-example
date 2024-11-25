@@ -8,7 +8,6 @@
 #include "SensorHandler.h" // For testing purposes
 
 FCM_ASYNC_INTERFACE_HANDLER(BackendInterface,
-public:
     void connect(const std::string& url);
     void keepAlive() { /* TODO */ };
     void doorLockChanged(uint doorId, bool locked) { /* TODO */ };

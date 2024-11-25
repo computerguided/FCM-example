@@ -6,7 +6,6 @@
 #include "FcmAsyncInterfaceHandler.h"
 
 FCM_ASYNC_INTERFACE_HANDLER(SensorHandler,
-
     void enableLockSensor(uint doorId);
     void enableDoorSensor(uint doorId);
     void lock(uint doorId);

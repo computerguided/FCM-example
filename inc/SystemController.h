@@ -6,18 +6,11 @@
 
 FCM_FUNCTIONAL_COMPONENT(SystemController,
 
-    // Handler references
     std::shared_ptr<BackendInterface> backendInterface;
-
-    // Settings
     uint numDoors{};
-
-    // State variables
     std::vector<uint> detectedDoors;
     int lastDoorIndex = -1;
     uint lastDoorId = 0;
-
-    // Local functions
     int findDoorIndex(uint doorId);
 );
 

@@ -27,10 +27,11 @@ void Administrator::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setTransitions()
 {
-    addTransitionFunction<Config::InitializedInd>("Idle", "Standby",
-        [](const auto& message){}
-    );
-    addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving",[this](const auto& message)
+    addTransitionFunction<Config::InitializedInd>("Idle", "Standby", [](const auto& message)
+    {
+
+    });
+    addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving", [this](const auto& message)
     {
         configurationDatabase->getBackendUrl();
     });

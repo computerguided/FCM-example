@@ -6,19 +6,12 @@
 
 FCM_FUNCTIONAL_COMPONENT(DoorController,
 
-    // Handler references
     std::shared_ptr<SensorHandler> sensorHandler;
-
-    // Settings
     FcmTime openDoorTimeoutMs{};
-
-    // State variables
     int openDoorTimerId = -1;
     uint doorId = -1;
     bool lockState = false;
     bool doorState = false;
-
-    // Local functions
     void sendDoorStateChangedInd();
     void sendDoorLockChangedInd();
 );

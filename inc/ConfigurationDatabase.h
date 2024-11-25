@@ -4,7 +4,6 @@
 #include "FcmAsyncInterfaceHandler.h"
 
 FCM_ASYNC_INTERFACE_HANDLER(ConfigurationDatabase,
-
     void initDatabase();
     void getBackendUrl();
     void storeEvent(const std::string& event);
