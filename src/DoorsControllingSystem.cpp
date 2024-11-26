@@ -47,20 +47,20 @@ void DoorsControllingSystem::initialize()
     }
 
     // -- Connect the interfaces of the handlers --
-    FCM_CONNECT_INTERFACE(Commands, systemController, backendInterface);
-    FCM_CONNECT_INTERFACE(Config, configurationDatabase, administrator);
+    connectInterface<Commands>(systemController, backendInterface);
+    connectInterface<Config>(configurationDatabase, administrator);
 
     for (const auto& doorController : doorControllers)
     {
-        FCM_CONNECT_INTERFACE(Sensing, sensorHandler, doorController);
+        connectInterface<Sensing>(sensorHandler, doorController);
     }
 
     // -- Connect functional components --
-    FCM_CONNECT_INTERFACE(Admin, administrator, systemController);
+    connectInterface<Admin>(administrator, systemController);
 
     for (const auto& doorController : doorControllers)
     {
-        FCM_CONNECT_INTERFACE(Control, doorController, systemController);
+        connectInterface<Control>(doorController, systemController);
     }
 
     // -- Set log functions --
