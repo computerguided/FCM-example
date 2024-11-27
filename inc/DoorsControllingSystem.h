@@ -47,6 +47,11 @@ private:
     FcmLogFunction logError = [](const std::string& message)
     {
         std::cout << message << std::endl;
+    };
+
+    FcmLogFunction fatalError = [](const std::string& message)
+    {
+        std::cout << message << std::endl;
         exit(EXIT_FAILURE);
     };
 };

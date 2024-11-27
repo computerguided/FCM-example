@@ -71,6 +71,7 @@ void DoorsControllingSystem::initialize()
         component->logInfoFunction = logInfo;
         component->logWarningFunction = logWarning;
         component->logErrorFunction = logError;
+        component->fatalErrorFunction = fatalError;
     }
 
     // -- Initialize the components --
