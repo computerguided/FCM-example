@@ -1,3 +1,6 @@
 [submodule "sub/fcm"]
 	path = sub/fcm
 	url = https://github.com/computerguided/FCM.git
+[submodule "sub/wiki"]
+	path = sub/wiki
+	url = https://github.com/computerguided/FCM.wiki.git
