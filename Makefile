@@ -5,6 +5,8 @@ CXX = g++
 CXXFLAGS = -Wall -g -Iinc -Isub/fcm/inc -std=c++17
 # Add -MMD -MP flags to generate dependency files
 CXXFLAGS += -MMD -MP
+# Disable RTTI
+CXXFLAGS += -fno-rtti
 
 BUILD_DIR = build
 
