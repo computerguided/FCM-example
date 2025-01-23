@@ -35,3 +35,6 @@ DoorsControllingSystem
 # VC
 .vscode
 .idea
+
+# Build
+build/
