@@ -19,7 +19,8 @@ void Administrator::setStates()
         "Idle",
         "Standby",
         "Retrieving",
-        "Ready", "Storing",
+        "Ready",
+        "Storing",
         "Pending Events?"
     };
 }

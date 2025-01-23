@@ -35,6 +35,11 @@ void DoorsControllingSystem::initialize()
     auto sensorHandler = createComponent<SensorHandler>("Sensor Handler", settings);
     auto configurationDatabase = createComponent<ConfigurationDatabase>("Configuration Database", settings);
 
+    // -- Add the asynchronous interface handlers to the settings --
+    settings["Backend Interface"] = std::any(backendInterface);
+    settings["Sensor Handler"] = std::any(sensorHandler);
+    settings["Configuration Database"] = std::any(configurationDatabase);
+
     // -- Create functional components --
     auto administrator = createComponent<Administrator>("Administrator", settings);
     auto systemController = createComponent<SystemController>("System Controller", settings);
