@@ -10,8 +10,8 @@ FCM_ASYNC_INTERFACE_HANDLER(SensorHandler,
     void enableDoorSensor(uint doorId);
     void lock(uint doorId);
     void unlock(uint doorId);
-    void addTag(uint doorId, uint tagId) { /* TODO */ };
-    void removeTag(uint doorId, uint tagId) { /* TODO */ };
+    void addTag(uint doorId, uint tagId) { /* TODO */ (void)doorId; (void)tagId; };
+    void removeTag(uint doorId, uint tagId) { /* TODO */ (void)doorId; (void)tagId; };
 
     // Functions for testing
     void sendDoorSensorInd(uint doorId, bool open);

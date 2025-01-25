@@ -28,53 +28,53 @@ void Administrator::setStates()
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::setTransitions()
 {
-    addTransitionFunction<Config::InitializedInd>("Idle", "Standby", [this](const auto& message)
+    addTransitionFunction<Config::InitializedInd>("Idle", "Standby", [this]([[maybe_unused]] const auto& message)
     {
-        (void)this;
+        NOP;
     });
-    addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving", [this](const auto& message)
+    addTransitionFunction<Admin::BackendUrlReq>("Standby", "Retrieving", [this]([[maybe_unused]] const auto& message)
     {
         configurationDatabase->getBackendUrl();
     });
-    addTransitionFunction<Config::BackendUrlInd>("Retrieving", "Ready", [this](const auto& message)
+    addTransitionFunction<Config::BackendUrlInd>("Retrieving", "Ready", [this]([[maybe_unused]] const auto& message)
     {
         auto backEndUrlResp = prepareMessage<Admin::BackendUrlRsp>();
         backEndUrlResp->url = message.url;
         sendMessage(backEndUrlResp);
     });
-    addTransitionFunction<Admin::DoorStateChangedInd>("Ready", "Storing", [this](const auto& message)
+    addTransitionFunction<Admin::DoorStateChangedInd>("Ready", "Storing", [this]([[maybe_unused]] const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId) + " is " + (message.open ? "open" : "closed");
         configurationDatabase->storeEvent(event);
     });
-    addTransitionFunction<Admin::DoorLockChangedInd>("Ready", "Storing", [this](const auto& message)
+    addTransitionFunction<Admin::DoorLockChangedInd>("Ready", "Storing", [this]([[maybe_unused]] const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId )+ " is " + (message.locked ? "locked" : "unlocked");
         configurationDatabase->storeEvent(event);
     });
-    addTransitionFunction<Admin::DoorStateChangedInd>("Storing", "Storing", [this](const auto& message)
+    addTransitionFunction<Admin::DoorStateChangedInd>("Storing", "Storing", [this]([[maybe_unused]] const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId )+ " is " + (message.open ? "open" : "closed");
         pendingEvents.push_back(event);
     });
-    addTransitionFunction<Admin::DoorLockChangedInd>("Storing", "Storing", [this](const auto& message)
+    addTransitionFunction<Admin::DoorLockChangedInd>("Storing", "Storing", [this]([[maybe_unused]] const auto& message)
     {
         std::string event = "Door " + std::to_string(message.doorId) + " is " + (message.locked ? "locked" : "unlocked");
         pendingEvents.push_back(event);
     });
-    addTransitionFunction<Config::EventStoredInd>("Storing", "Pending Events?", [this](const auto& message)
+    addTransitionFunction<Config::EventStoredInd>("Storing", "Pending Events?", [this]([[maybe_unused]] const auto& message)
     {
-        (void)this;
+        NOP;
     });
-    addTransitionFunction<Logical::Yes>("Pending Events?", "Storing", [this](const auto& message)
+    addTransitionFunction<Logical::Yes>("Pending Events?", "Storing", [this]([[maybe_unused]] const auto& message)
     {
         std::string event = pendingEvents.front();
         pendingEvents.erase(pendingEvents.begin());
         configurationDatabase->storeEvent(event);
     });
-    addTransitionFunction<Logical::No>("Pending Events?", "Ready", [this](const auto& message)
+    addTransitionFunction<Logical::No>("Pending Events?", "Ready", [this]([[maybe_unused]] const auto& message)
     {
-        (void)this;
+        NOP;
     });
 }
 

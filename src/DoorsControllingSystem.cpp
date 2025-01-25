@@ -45,7 +45,7 @@ void DoorsControllingSystem::initialize()
     auto systemController = createComponent<SystemController>("System Controller", settings);
 
     std::vector<std::shared_ptr<DoorController>> doorControllers;
-    for (int i = 0; i < std::any_cast<uint>(settings["numDoors"]); i++)
+    for (uint i = 0; i < std::any_cast<uint>(settings["numDoors"]); i++)
     {
         auto doorController = createComponent<DoorController>("Door Controller[" + std::to_string(i) +"]", settings);
         doorControllers.push_back(doorController);

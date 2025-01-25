@@ -10,8 +10,8 @@
 FCM_ASYNC_INTERFACE_HANDLER(BackendInterface,
     void connect(const std::string& url);
     void keepAlive() { /* TODO */ };
-    void doorLockChanged(uint doorId, bool locked) { /* TODO */ };
-    void doorStateChanged(uint doorId, bool open) { /* TODO */ };
+    void doorLockChanged(uint doorId, bool locked) { /* TODO */ (void)doorId; (void)locked; };
+    void doorStateChanged(uint doorId, bool open) { /* TODO */ (void)doorId; (void)open; };
     void alarm(uint doorId, const std::string& alarm) 
     {
         logInfo("Door " + std::to_string(doorId) + ": " + alarm);
