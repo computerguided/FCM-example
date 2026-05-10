@@ -5,16 +5,6 @@
 
 #include "FcmDevice.h"
 
-// Asynchronous Interface Handlers
-#include "BackendInterface.h"
-#include "SensorHandler.h"
-#include "ConfigurationDatabase.h"
-
-// Functional components
-#include "Administrator.h"
-#include "SystemController.h"
-#include "DoorController.h"
-
 class DoorsControllingSystem : public FcmDevice
 {
 public:

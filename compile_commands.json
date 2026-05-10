@@ -1,0 +1,272 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/main.o",
+      "main.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/main.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/DoorsControllingSystem.o",
+      "src/DoorsControllingSystem.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/DoorsControllingSystem.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/DoorsControllingSystem.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/Administrator.o",
+      "src/Administrator.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/Administrator.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/Administrator.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/BackendInterface.o",
+      "src/BackendInterface.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/BackendInterface.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/BackendInterface.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/ConfigurationDatabase.o",
+      "src/ConfigurationDatabase.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/ConfigurationDatabase.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/ConfigurationDatabase.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/DoorController.o",
+      "src/DoorController.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/DoorController.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/DoorController.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/SensorHandler.o",
+      "src/SensorHandler.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/SensorHandler.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/SensorHandler.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/src/SystemController.o",
+      "src/SystemController.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/src/SystemController.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/src/SystemController.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmAsyncInterfaceHandler.o",
+      "sub/fcm/src/FcmAsyncInterfaceHandler.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmAsyncInterfaceHandler.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmAsyncInterfaceHandler.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmBaseComponent.o",
+      "sub/fcm/src/FcmBaseComponent.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmBaseComponent.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmBaseComponent.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmDevice.o",
+      "sub/fcm/src/FcmDevice.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmDevice.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmDevice.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmFunctionalComponent.o",
+      "sub/fcm/src/FcmFunctionalComponent.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmFunctionalComponent.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmFunctionalComponent.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmMessageQueue.o",
+      "sub/fcm/src/FcmMessageQueue.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmMessageQueue.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmMessageQueue.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmTimerHandler.o",
+      "sub/fcm/src/FcmTimerHandler.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmTimerHandler.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmTimerHandler.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/g++",
+      "-Wall",
+      "-g",
+      "-Iinc",
+      "-Isub/fcm/inc",
+      "-std=c++17",
+      "-fno-rtti",
+      "-c",
+      "-o",
+      "build/sub/fcm/src/FcmWorkerHandler.o",
+      "sub/fcm/src/FcmWorkerHandler.cpp"
+    ],
+    "directory": "/home/fred/Repositories/Computerguided/FCM-example",
+    "file": "/home/fred/Repositories/Computerguided/FCM-example/sub/fcm/src/FcmWorkerHandler.cpp",
+    "output": "/home/fred/Repositories/Computerguided/FCM-example/build/sub/fcm/src/FcmWorkerHandler.o"
+  }
+]

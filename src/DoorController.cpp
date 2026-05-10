@@ -59,7 +59,7 @@ void DoorController::setTransitions()
     });
     addTransitionFunction<Logical::No>("Closed?", "Open", [this]([[maybe_unused]] const auto& message)
     {
-        openDoorTimerId = setTimeout(openDoorTimeoutMs);
+        setTimeout(openDoorTimerId, openDoorTimeoutMs);
     });
     addTransitionFunction<Sensing::LockSensorInd>("Await Lock Sensor", "Is Locked?", [this]([[maybe_unused]] const auto& message)
     {
@@ -98,7 +98,7 @@ void DoorController::setTransitions()
     {
         doorState = message.open;
         sendDoorStateChangedInd();
-        openDoorTimerId = setTimeout(openDoorTimeoutMs);
+        setTimeout(openDoorTimerId, openDoorTimeoutMs);
     });
     addTransitionFunction<Control::SetLockInd>("Unlocked", "Locking", [this]([[maybe_unused]] const auto& message)
     {
