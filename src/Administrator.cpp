@@ -7,7 +7,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 void Administrator::initialize()
 {
-    setSetting<std::shared_ptr<ConfigurationDatabase>>("Configuration Database", configurationDatabase);
+    // Get the configuration database from the handlers
+    configurationDatabase = std::static_pointer_cast<ConfigurationDatabase>(handlers.at("Configuration Database"));
     configurationDatabase->initDatabase();
 }
 

@@ -14,7 +14,7 @@
 void SystemController::initialize()
 {
     setSetting<uint>("numDoors", numDoors);
-    setSetting<std::shared_ptr<BackendInterface>>("Backend Interface", backendInterface);
+    backendInterface = std::static_pointer_cast<BackendInterface>(handlers.at("Backend Interface"));
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
